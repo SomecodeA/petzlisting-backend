@@ -1,7 +1,7 @@
 import puppeteer from 'puppeteer';
 import chrome from 'chrome-aws-lambda';
 
-module.exports = async (req, res) => {
+export default async (req, res) => {
   try {
     // Launch a headless browser
     const browser = await puppeteer.launch({
