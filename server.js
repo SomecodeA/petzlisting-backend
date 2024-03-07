@@ -1,6 +1,7 @@
 import express from 'express';
 import puppeteer from 'puppeteer';
 import cors from 'cors';
+import chrome from 'chrome-aws-lambda';
 
 // Initialize the Express application
 const app = express();
@@ -12,7 +13,11 @@ app.use(cors());
 app.get('/fetch-data', async (req, res) => {
   try {
     // Launch a headless browser
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+      args: chrome.args,
+      executablePath: await chrome.executablePath,
+      headless: chrome.headless,
+    });
     const page = await browser.newPage();
 
     // Set custom headers
