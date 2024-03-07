@@ -1,9 +1,18 @@
 import puppeteer from 'puppeteer';
+import chrome from 'chrome-aws-lambda';
+import { execSync } from 'child_process';
+
+// Set LD_LIBRARY_PATH to include the directory containing libnss3.so
+execSync(`export LD_LIBRARY_PATH="${chrome.libraryPath}:${process.env.LD_LIBRARY_PATH}"`);
 
 export default async (req, res) => {
   try {
     // Launch a headless browser
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+      args: chrome.args,
+      executablePath: await chrome.executablePath,
+      headless: chrome.headless,
+    });
     const page = await browser.newPage();
 
     // Set custom headers
