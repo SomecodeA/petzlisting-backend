@@ -1,16 +1,9 @@
-import puppeteer from 'puppeteer-core';
-import chromium from 'chrome-aws-lambda';
+import puppeteer from 'puppeteer';
 
 export default async (req, res) => {
   try {
     // Launch a headless browser
-    const browser = await puppeteer.launch({
-      args: [...chromium.args, '--hide-scrollbars', '--disable-web-security'],
-      defaultViewport: chromium.defaultViewport,
-      executablePath: await chromium.executablePath,
-      headless: true,
-      ignoreHTTPSErrors: true,
-    });
+    const browser = await puppeteer.launch();
     const page = await browser.newPage();
 
     // Set custom headers
