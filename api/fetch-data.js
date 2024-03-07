@@ -5,9 +5,11 @@ export default async (req, res) => {
   try {
     // Launch a headless browser
     const browser = await puppeteer.launch({
-      args: [...chromium.args, '--no-sandbox', '--disable-setuid-sandbox'],
+      args: [...chromium.args, '--hide-scrollbars', '--disable-web-security'],
+      defaultViewport: chromium.defaultViewport,
       executablePath: await chromium.executablePath,
-      headless: chromium.headless,
+      headless: true,
+      ignoreHTTPSErrors: true,
     });
     const page = await browser.newPage();
 
